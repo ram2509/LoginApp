@@ -31,11 +31,14 @@ var route = {
 app.use('/',route.index);
 app.use('/users',route.users);
 
-app.configure(function() {
-    app.use(express.cookieParser('keyboard cat'));
-    app.use(express.session({ cookie: { maxAge: 60000 }}));
-    app.use(flash());
-});
+app.use(session({
+     secret : 'secret',
+     saveUninitialized : true,
+     resave : true
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // In this example, the formParam value is going to get morphed into form body format useful for printing.
 app.use(expressValidator({
@@ -56,7 +59,7 @@ app.use(expressValidator({
 }));
 
 //connect flash
-
+app.use(flash());
 
 //Global Variables
 app.use(function (req,res,next) {

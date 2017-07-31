@@ -1,9 +1,11 @@
 var router = require('express').Router();
 var expressValidator = require('express-validator');
-var flash = require('connect-flash');
+//var flash = require('connect-flash');
 router.use(expressValidator());
 //var database = require('../models/database');
 var user = require('../models/db');
+//router.use(flash());
+
 router.get('/login',function (req,res) {
     res.render('login');
 })
@@ -41,13 +43,14 @@ router.post('/register',function (req,res) {
             password : password,
         });
 
-        user.createUser(newUser,function (err,user) {
+        user.createUser(newUser,function (err,data) {
             if(err) throw err;
-            console.log(user);
+            console.log(data);
         });
     }
 
-    req.flash('success_msg','You are register can now login');
+  //  req.flash('success_msg','You are register can now login');
+    res.redirect('/users/login');
 
 
 })
